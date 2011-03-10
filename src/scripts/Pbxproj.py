@@ -364,8 +364,8 @@ class Pbxproj(object):
 	# <guid> /* <name> */,
 	def add_file_to_resources(self, name, guid):
 		match = re.search('\/\* '+re.escape('Resources')+' \*\/ = \{\n[ \t]+isa = PBXGroup;\n[ \t]+children = \(\n((?:.|\n)+?)\);', self.get_project_data())
-   		if not match:
-    		return self.add_file_to_group(name, guid, 'Supporting Files')
+		if not match:
+			return self.add_file_to_group(name, guid, 'Supporting Files')
 
 		return self.add_file_to_group(name, guid, 'Resources')
 
