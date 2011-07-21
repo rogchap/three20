@@ -64,7 +64,7 @@ TT_FIX_CATEGORY_BUG(NSDataAdditions)
 // where the poster released it to public domain
 // style not exactly congruous with normal three20 style, but kept mostly intact with the original
 static const char encodingTable[] =
-                                 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (NSData*)dataWithBase64EncodedString:(NSString *)string {
@@ -161,8 +161,7 @@ static const char encodingTable[] =
   }
 
   return [[[NSString alloc] initWithBytesNoCopy:characters length:length
-                                       encoding:NSASCIIStringEncoding freeWhenDone:YES]
-          autorelease];
+                                      encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
 }
 // end recycled base64 code
 ///////////////////////////////////////////////////////////////////////////////////////////////////
