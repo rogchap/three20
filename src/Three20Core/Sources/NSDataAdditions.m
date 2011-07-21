@@ -63,8 +63,10 @@ TT_FIX_CATEGORY_BUG(NSDataAdditions)
 // base64 code found on http://www.cocoadev.com/index.pl?BaseSixtyFour
 // where the poster released it to public domain
 // style not exactly congruous with normal three20 style, but kept mostly intact with the original
-static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static const char encodingTable[] =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 + (NSData*)dataWithBase64EncodedString:(NSString *)string;
 {
   if ([string length] == 0)
@@ -129,6 +131,7 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
   return [NSData dataWithBytesNoCopy:bytes length:length];
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString *)base64Encoding;
 {
   if ([self length] == 0)
@@ -147,7 +150,8 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     while (bufferLength < 3 && i < [self length])
       buffer[bufferLength++] = ((char *)[self bytes])[i++];
 
-    //  Encode the bytes in the buffer to four characters, including padding "=" characters if necessary.
+    // Encode the bytes in the buffer to four characters,
+    // including padding "=" characters if necessary.
     characters[length++] = encodingTable[(buffer[0] & 0xFC) >> 2];
     characters[length++] = encodingTable[((buffer[0] & 0x03) << 4) | ((buffer[1] & 0xF0) >> 4)];
     if (bufferLength > 1)
@@ -158,7 +162,8 @@ static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopq
     else characters[length++] = '=';
   }
 
-  return [[[NSString alloc] initWithBytesNoCopy:characters length:length encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
+  return [[[NSString alloc] initWithBytesNoCopy:characters length:length
+                                      encoding:NSASCIIStringEncoding freeWhenDone:YES] autorelease];
 }
 // end recycled base64 code
 ///////////////////////////////////////////////////////////////////////////////////////////////////

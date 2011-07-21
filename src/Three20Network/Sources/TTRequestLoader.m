@@ -82,22 +82,27 @@ static const NSInteger kLoadMaxRetries = 2;
 #pragma mark -
 #pragma mark Private
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
 // This method not called from outside,
 // used as a separate entry point for performSelector outside connectToURL below
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)deliverDataResponse:(NSURL*)URL {
   // http://tools.ietf.org/html/rfc2397
   NSArray * dataSplit = [[URL resourceSpecifier] componentsSeparatedByString:@","];
-  if([dataSplit count]!=2) {
+  if ([dataSplit count]!=2) {
     TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"UNRECOGNIZED data: URL %@", self.urlPath);
     return;
   }
-  if([[dataSplit objectAtIndex:0] rangeOfString:@"base64"].location == NSNotFound) {
+  if ([[dataSplit objectAtIndex:0] rangeOfString:@"base64"].location == NSNotFound) {
+
     // Strictly speaking, to be really conformant need to interpret %xx hex encoded entities.
-    // The [NSString dataUsingEncoding] doesn't do that correctly, but most documents don't use that.
+    // The [NSString dataUsingEncoding] doesn't do that correctly, but most
+    // documents don't use that.
     // Skip for now.
 	_responseData = [[[dataSplit objectAtIndex:1] dataUsingEncoding:NSASCIIStringEncoding] retain];
+
   } else {
+
     _responseData = [[NSData dataWithBase64EncodedString:[dataSplit objectAtIndex:1]] retain];
   }
 
@@ -109,7 +114,7 @@ static const NSInteger kLoadMaxRetries = 2;
 - (void)connectToURL:(NSURL*)URL {
   TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"Connecting to %@", _urlPath);
   // If this is a data: url, we can decode right here ... after a delay to get out of calling thread
-  if([[URL scheme] isEqualToString:@"data"]) {
+  if ([[URL scheme] isEqualToString:@"data"]) {
     [self performSelector:@selector(deliverDataResponse:) withObject:URL afterDelay:0.1];
     return;
   }
